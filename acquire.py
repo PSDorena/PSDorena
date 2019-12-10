@@ -15,7 +15,9 @@ import json
 from typing import Dict, List
 import requests
 
+
 from env import github_token
+from env import user_agent
 
 # TODO: Make a github personal access token.
 #     1. Go here and generate a personal access token https://github.com/settings/tokens
@@ -27,7 +29,7 @@ repos = ["gocodeup/codeup-setup-script", "gocodeup/movies-application"]
 
 headers = {
     "Authorization": f"token {github_token}",
-    "User-Agent": "YOUR_GITHUB_USERNAME",
+    "User-Agent": f"{user_agent}",
 }
 
 if (
