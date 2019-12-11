@@ -172,7 +172,7 @@ def scrape_github_data() -> List[Dict[str, str]]:
     return pd.read_json('data_titanic.json')
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     
 
 
