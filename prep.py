@@ -55,8 +55,8 @@ def lemmatize(string):
     string_of_lemmas = ' '.join(lemmas)
     return string_of_lemmas
 
-
-def remove_stopwords(string, extra_words=[], exclude_words=[]):
+my_words = ["'"]
+def remove_stopwords(string, extra_words=my_words, exclude_words=[]):
     # Tokenize the string
     string = tokenize(string)
 
