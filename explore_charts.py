@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 def donut_chart(recipe, data):
 
-    fig, ax = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
+    fig, ax = plt.subplots(figsize=(40, 8), subplot_kw=dict(aspect="equal"))
 
     recipe = recipe
 
@@ -25,6 +25,6 @@ def donut_chart(recipe, data):
         ax.annotate(recipe[i], xy=(x, y), xytext=(1.35*np.sign(x), 1.4*y),
                     horizontalalignment=horizontalalignment, **kw)
 
-    ax.set_title("Matplotlib bakery: A donut")
+    ax.set_title("What are the languages of the most popular repositiories for Titanic dataset?")
 
     plt.show()
