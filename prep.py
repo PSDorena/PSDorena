@@ -55,7 +55,7 @@ def lemmatize(string):
     string_of_lemmas = ' '.join(lemmas)
     return string_of_lemmas
 
-my_words = ["'"]
+my_words = ["'", 'titanic', 'age', 'sex', 'passengerid', 'survived', 'dataset', 'fare', 'survival', 'middle', 'passenger', 'passengers', 'embarked', "&#9;", '0']
 def remove_stopwords(string, extra_words=my_words, exclude_words=[]):
     # Tokenize the string
     string = tokenize(string)
