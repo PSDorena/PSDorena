@@ -15,9 +15,9 @@ from requests import get
 
 
 from env import github_token
-from env import user_agent
+from env import github_username
 
-import acquire
+import acquire_titanic
 
 
 #df = acquire.scrape_github_data()

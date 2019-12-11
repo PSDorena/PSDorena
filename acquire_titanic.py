@@ -14,6 +14,9 @@ import os
 import json
 from typing import Dict, List, Optional, Union, cast
 import requests
+import pandas as pd
+
+from bs4 import BeautifulSoup
 
 from env import github_token, github_username
 
@@ -23,11 +26,11 @@ from env import github_token, github_username
 # TODO: Add your github username to your env.py file under the variable `github_username`
 # TODO: Add more repositories to the `REPOS` list below.
 
-REPOS = [
-    "gocodeup/codeup-setup-script",
-    "gocodeup/movies-application",
-    "torvalds/linux",
-]
+# REPOS = [
+#     "gocodeup/codeup-setup-script",
+#     "gocodeup/movies-application",
+#     "torvalds/linux",
+# ]
 
 headers = {"Authorization": f"token {github_token}", "User-Agent": github_username}
 
@@ -43,7 +46,7 @@ def get_urls(n):
     url = 'https://github.com/search?o=desc&p=1&q=titanic&s=stars&type=Repositories'
     urls = [url]
 
-    for page in range(2,n+1):
+    for page in range(2,20):
         urls.append(f'https://github.com/search?o=desc&p={page}&q=titanic&s=stars&type=Repositories')
     urls = pd.DataFrame({'urls': urls})
     urls.to_csv('urls_titanic.csv', index = False)
@@ -58,9 +61,9 @@ def get_repo_list(n):
 
     repo_names = []
     count  = 1
-    for url in urls[9:]:
+    for url in urls[10:]:
         headers = {'User-Agent': 'Data Science Student'}
-        response = get(url, headers=headers)
+        response = requests.get(url, headers=headers)
 
         if response.status_code != 200:
             print('Did not reach all urls')
@@ -133,22 +136,46 @@ def process_repo(repo: str) -> Dict[str, str]:
     Takes a repo name like "gocodeup/codeup-setup-script" and returns a
     dictionary with the language of the repo and the readme contents.
     """
+    # contents = get_repo_contents(repo)
+    # readme_contents = requests.get(get_readme_download_url(contents)).text
+    
+    # return {
+    #     "repo": repo,
+    #     "language": get_repo_language(repo),
+    #     "readme_contents": readme_contents,
+    # }
     contents = get_repo_contents(repo)
-    readme_contents = requests.get(get_readme_download_url(contents)).text
-    return {
+    try:
+        return {
+            "repo": repo,
+            "language": get_repo_language(repo),
+            "readme_contents": requests.get(get_readme_download_url(contents)).text,
+        }
+    except:
+        return {
         "repo": repo,
         "language": get_repo_language(repo),
-        "readme_contents": readme_contents,
-    }
-
+        "readme_contents": "error: no README",
+        }
 
 def scrape_github_data() -> List[Dict[str, str]]:
     """
     Loop through all of the repos and process them. Returns the processed data.
     """
-    return [process_repo(repo) for repo in REPOS]
+    if os.path.exists('data_titanic.json'):
+        return pd.read_json('data_titanic.json')
+
+    REPOS = get_repo_list(20)
+    data = [process_repo(repo) for repo in REPOS]
+    json.dump(data, open("data_titanic.json", "w"), indent=1)
+
+    return pd.read_json('data_titanic.json')
 
 
-if __name__ == "__main__":
-    data = scrape_github_data()
-    json.dump(data, open("data.json", "w"), indent=1)
+#if __name__ == "__main__":
+    
+
+
+#get_repo_list(10)
+
+#pd.read_json('data_titanic.json')
