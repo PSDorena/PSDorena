@@ -14,6 +14,10 @@ import os
 import json
 from typing import Dict, List
 import requests
+import pandas as pd 
+from bs4 import BeautifulSoup
+
+from requests import get
 
 
 from env import github_token
@@ -39,6 +43,52 @@ if (
     raise Exception(
         "You need to follow the instructions marked TODO in this script before trying to use it"
     )
+
+def get_urls(n):
+    if os.path.exists('urls.csv'):
+        return pd.read_csv('urls.csv').urls.tolist()
+
+    url = 'https://github.com/search?o=desc&q=stars:%3E1&s=forks&type=Repositories'
+    urls = [url]
+
+    for page in range(2,n+1):
+        urls.append(f'https://github.com/search?o=desc&amp;p={page}&amp;q=stars%3A%3E1&amp;s=forks&amp;type=Repositories')
+    urls = pd.DataFrame({'urls': urls})
+    urls.to_csv('urls.csv', index = False)
+    return urls.urls.tolist()
+
+def get_repo_list():
+
+    if os.path.exists('repo_names.csv'):
+        return pd.read_csv('repo_names.csv').repo_names.tolist()
+
+    urls = get_urls(10)
+
+    repo_names = []
+    count  = 1
+    for url in urls:
+        headers = {'User-Agent': 'Data Science Student'}
+        response = get(url, headers=headers)
+
+        if response.status_code != 200:
+            print('Did not reach all urls')
+            print(f'\nstopped at page # {count}:')
+            print('\n' + url)
+            break
+
+        x = response.content
+        soup = BeautifulSoup(x, 'html.parser')
+        repo_links = soup.select('a[class = v-align-middle]')
+
+        for l in range(len(repo_links)):
+            repo_names.append(soup.select('a[class = v-align-middle]')[l].get_text())
+        
+        count += 1
+
+    repo_names_df = pd.DataFrame({'repo_names':repo_names})
+    repo_names_df.to_csv('repo_names.csv', index = False)
+
+    return  repo_names.repo_names.tolist()
 
 
 def github_api_request(url: str) -> requests.Response:
@@ -80,6 +130,9 @@ def process_repo(repo: str) -> Dict[str, str]:
 
 
 def scrape_github_data():
+    if os.path.exists('data.json'):
+        print('data.csv exists in the repository')
+        return pd.read_json(data.json)
     """
     Loop through all of the repos and process them. Saves the data in
     `data.json`.
@@ -88,8 +141,13 @@ def scrape_github_data():
     json.dump(data, open("data.json", "w"))
 
 
+
+
+
 if __name__ == "__main__":
     scrape_github_data()
 
 # for repo in repos:  
 #     print(process_repo(repo))
+
+#get_repo_list()
