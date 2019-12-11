@@ -57,12 +57,12 @@ def get_urls(n):
     urls.to_csv('urls.csv', index = False)
     return urls.urls.tolist()
 
-def get_repo_list():
+def get_repo_list(n):
 
     if os.path.exists('repo_names.csv'):
         return pd.read_csv('repo_names.csv').repo_names.tolist()
 
-    urls = get_urls(10)
+    urls = get_urls(n)
 
     repo_names = []
     count  = 1
@@ -132,11 +132,12 @@ def process_repo(repo: str) -> Dict[str, str]:
 def scrape_github_data():
     if os.path.exists('data.json'):
         print('data.csv exists in the repository')
-        return pd.read_json(data.json)
+        return pd.read_json('data.json')
     """
     Loop through all of the repos and process them. Saves the data in
     `data.json`.
     """
+    repos = get_repo_list(10)
     data = [process_repo(repo) for repo in repos]
     json.dump(data, open("data.json", "w"))
 
