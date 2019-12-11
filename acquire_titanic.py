@@ -176,6 +176,6 @@ if __name__ == "__main__":
     
 
 
-get_repo_list(10)
+#get_repo_list(10)
 
-pd.read_json('data_titanic.json')
+#pd.read_json('data_titanic.json')
