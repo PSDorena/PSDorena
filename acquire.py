@@ -25,7 +25,7 @@ from env import user_agent
 # TODO: Replace YOUR_GITHUB_USERNAME below with your github username.
 # TODO: Add more repositories to the `repos` list.
 
-repos = ["gocodeup/codeup-setup-script", "gocodeup/movies-application"]
+#repos = ["gocodeup/codeup-setup-script", "gocodeup/movies-application"]
 
 headers = {
     "Authorization": f"token {github_token}",
@@ -90,3 +90,6 @@ def scrape_github_data():
 
 if __name__ == "__main__":
     scrape_github_data()
+
+# for repo in repos:  
+#     print(process_repo(repo))
