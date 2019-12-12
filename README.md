@@ -4,13 +4,13 @@ For this project, we will be scraping data from GitHub repository README files. 
 
 ACQUIRE:
 
-So, mid-way through the scraping process, we were provided the necessary code to access Github's API. This set of code was is introduced in the acquire_titanic.py file. Our code generates approximately 180 entries into a .json file. There are several important steps that the user will need to input:
+Mid-way through the scraping process, we were provided the necessary code to access Github's API. This set of code is introduced in the acquire_titanic.py file. Our code generates approximately 180 entries into a .json file. There are several important steps that the user will need to input:
 
     An env.py file is necessary to run the code in the acquire file. The env file should include:
 
-    A github token. This token can be made by going onto Github and requesting a token. For further instructions, google "Getting Github token"
+    A github_token. This token can be made by going onto Github and requesting a token. For further instructions, google "Getting Github token"
 
-    A variable called github username, where the variable is set to your Github username as a string.
+    A variable called github_username, where the variable is set to your Github username as a string.
 
 
 PREP:
@@ -19,9 +19,9 @@ All prep work was done through the functions that are included in the prep.py fi
 
 EXPLORATION:
 
-The first step of the exploration process was to eliminate any instances of an entry that did not contain a README. This dropped the total number of entries from 180 to ~ 170. Intial exploration revealed the first error of using repositories that were centered around a learner's dataset. There was a marked skew in the langauges used in favor of Jupyter Notebook and Python. 70 percent of the data entries were comprised of the two languages. Given that a Jupyter Notebook is often use for python coding, it is reasonable to assume that the skew towards python is higher than what the data reveal. Additionally, any language that had one entry had to be eliminated due to the fact that it could not be split in a train/test split. Analyzed text for the first modeling was drawn from the 'clean' column in the dataframe. 
+The first step of the exploration process was to eliminate any instances of an entry that did not contain a README. This dropped the total number of entries from 180 to ~ 170. Intial exploration revealed the first error of using repositories that were centered around a learner's dataset. There was a marked skew in the langauges used in favor of Jupyter Notebook and Python. 70 percent of the data entries were comprised of the two languages. Given that a Jupyter Notebook is often used for python coding, it is reasonable to assume that the skew towards python is higher than what the data reveals. Additionally, any language that had one entry had to be eliminated due to the fact that it could not be split in a train/test split. Analyzed text for the first modeling was drawn from the 'clean' column in the dataframe. 
 
-Organizing the text data led to the conclusion that there were are number of stop words that needed to be added to the personalized stopword list. Most of the words associated with the titanic dataset, including the word 'titanic', were excluded to create greater distinction between programming languages. The analyzation of bigrams also provided insight into the removal of certain stopwords, like 'machine' and 'learning'. 
+Organizing the text data led to the conclusion that there were are number of stop words that needed to be added to the customized stopword list. Most of the words associated with the titanic dataset, including the word 'titanic', were excluded to create greater distinction between programming languages. The analyzation of bigrams also provided insight into the removal of certain stopwords, like 'machine' and 'learning'. 
 
 Modeling:
 
