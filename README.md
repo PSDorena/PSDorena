@@ -1,5 +1,5 @@
 This README is an overivew and technical guide to our NLP project for Codeup.
-NLP Project
+
 For this project, we will be scraping data from GitHub repository README files. The goal will be to build a model that can predict what programming language a repository is, given the text of the README file. We decided to use repositories that were connected to the examination of the Titanic DB set.
 
 ACQUIRE:
