@@ -2,3 +2,4 @@ env.py
 __pycache__/
 sara*
 .ipynb_checkpoints/
+sp*
